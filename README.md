@@ -10,7 +10,7 @@ Empresas recebem constantemente uma grande quantidade de e-mails, e classificar 
 Além do mais, o o meu  código pode ser facilmente adaptado para classificar outros tipos de dados, como sentimentos em comentários de redes sociais, por exemplo.
 
 # 📈 Atualizações
-# Foi aplicado uma Regressão Logística com Grid Search e ajustar a classificação de saída com base em um determinado limiar de probabilidade, gerando uma matriz de confusão e que é avaliada a curva ROC e o score AUC
+Foi aplicado uma Regressão Logística com Grid Search e ajustar a classificação de saída com base em um determinado limiar de probabilidade, gerando uma matriz de confusão e que é avaliada a curva ROC e o score AUC
 
 # 💻 O que vem a seguir:
 - Continuarei a melhorar o desempenho do modelo com técnicas de otimização de hiperparâmetros e feature engineering.
