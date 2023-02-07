@@ -11,3 +11,5 @@ Além do mais, o o meu  código pode ser facilmente adaptado para classificar ou
 
 # 💻 O que vem a seguir:
 - Continuarei a melhorar o desempenho do modelo com técnicas de otimização de hiperparâmetros e feature engineering.
+- irei dicionar uma camada de pré-processamento de texto, como a remoção de stopwords e stemming.
+- Aumentarei a quantidade de dados disponíveis para treinamento do modelo. 
