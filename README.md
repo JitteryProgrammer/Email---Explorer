@@ -3,7 +3,7 @@
 # 📊 Apresentação do meu código
 Este é um projeto de classificação de e-mails como spam ou não spam, utilizando as bibliotecas Pandas, scikit-learn, Seaborn e Matplotlib para realizar a análise.
 
-# 🤔 Como pode código futuramente pode ser importante para sua empresa?
+# 🤔 Como meu código futuramente pode ser importante para sua empresa?
 
 Empresas recebem constantemente uma grande quantidade de e-mails, e classificar os e-mails como spam ou não-spam é importante para manter a organização da caixa de entrada e garantir que as mensagens importantes não sejam perdidas.
 
