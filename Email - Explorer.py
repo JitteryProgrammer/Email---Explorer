@@ -59,23 +59,22 @@ probabilities = model.predict_proba(X_test)
 
 
 
-def adjusted_classes(probs, threshold):
+def predict_classes(probs, threshold):
     return [1 if p[1] >= threshold else 0 for p in probs]
 
-param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000], 'penalty': ['l1', 'l2']}
+param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000], 'penalty': ['l1', 'l2'], 'threshold': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}
 logistic = LogisticRegression()
 grid = GridSearchCV(logistic, param_grid, scoring='roc_auc', cv=5)
 grid.fit(X_train, y_train)
 
 probabilities = grid.predict_proba(X_test)
-pred_classes = adjusted_classes(probabilities, grid.best_params_['threshold'])
+pred_classes = predict_classes(probabilities, grid.best_params_['threshold'])
+
 
 threshold = 0.5
 
 confusion = confusion_matrix(y_test, pred_classes)
-print("Confusion Matrix with adjusted threshold: \n", confusion)
-pred_classes = adjusted_classes(probabilities, threshold)
-
+print("Confusion Matrix with optimal threshold: \n", confusion)
 
 fpr, tpr, thresholds = roc_curve(y_test, probabilities[:, 1])
 roc_auc = roc_auc_score(y_test, probabilities[:, 1])
