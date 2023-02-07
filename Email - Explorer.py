@@ -9,6 +9,8 @@ import seaborn as sns
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+import smtplib
+import email.utils
 
 # Carregando os dados de e-mails
 emails = pd.read_csv("> Arquivo CSV<")
@@ -62,11 +64,19 @@ probabilities = model.predict_proba(X_test)
 def predict_classes(probs, threshold):
     return [1 if p[1] >= threshold else 0 for p in probs]
 
-param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000], 'penalty': ['l1', 'l2'], 'threshold': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}
+param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000], 
+              'penalty': ['l1', 'l2'], 
+              'threshold': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}
 logistic = LogisticRegression()
 grid = GridSearchCV(logistic, param_grid, scoring='roc_auc', cv=5)
-grid.fit(X_train, y_train)
 
+# Aqui é adicionado um passo de balanceamento de dados, como SMOTE
+X_train_resampled, y_train_resampled = SMOTE().fit_resample(X_train, y_train)
+
+# Treinamento com dados balanceados
+grid.fit(X_train_resampled, y_train_resampled)
+
+# Previsão com dados de teste
 probabilities = grid.predict_proba(X_test)
 pred_classes = predict_classes(probabilities, grid.best_params_['threshold'])
 
@@ -88,3 +98,36 @@ plt.xlabel("False Positive Rate")
 plt.ylabel("True Positive Rate")
 plt.title("ROC Curve")
 plt.show()
+
+def is_valid_email(email):
+    try:
+        parsed_email = email.utils.parseaddr(email)
+        return email.utils.formataddr(parsed_email) == email
+    except:
+        return False
+
+# Carregando os dados de e-mails
+emails = pd.read_csv("> Arquivo CSV<")
+
+# Adiciona uma coluna para verificar se o endereço de e-mail é válido
+emails['email_valido'] = emails['Exemplo: email'].apply(is_valid_email)
+
+# Remove todos os endereços de e-mail inválidos
+emails = emails[emails['email_valido'] == True]
+
+
+def send_email(to, subject, message):
+    try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
+        server.starttls()
+        server.login("seu_email@gmail.com", "sua_senha")
+        message = 'Subject: {}\n\n{}'.format(subject, message)
+        server.sendmail("seu_email@gmail.com", to, message)
+        print("Email enviado com sucesso para", to)
+    except Exception as e:
+        print("Ocorreu um erro ao enviar o email:", e)
+
+results = "Precision: {:.2f}%\nRecall: {:.2f}%\nF1-score: {:.2f}%".format(precision * 100, recall * 100, f1 * 100)
+
+send_email("email_destinatario@exemplo.com", "Resultados da Classificação de Emails", results)
