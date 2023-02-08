@@ -17,3 +17,4 @@ Além do mais, o o meu  código pode ser facilmente adaptado para classificar ou
 - Continuarei a melhorar o desempenho do modelo com técnicas de otimização de hiperparâmetros e feature engineering.
 - irei dicionar uma camada de pré-processamento de texto, como a remoção de stopwords e stemming.
 - Aumentarei a quantidade de dados disponíveis para treinamento do modelo. 
+-   Irei adicionar o Imaplib que me permite  baixar, manipular e enviar e-mails a partir de um servidor IMAP,  ai depois de obter as mensagens de e-mails, irei armazená-las em um formato de dados apropriado (como uma lista ou um dataframe do Pandas) e processá-las da mesma forma que o arquivo CSV atual é processado.
