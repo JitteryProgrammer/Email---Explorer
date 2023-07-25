@@ -12,10 +12,8 @@ from sklearn.metrics import accuracy_score
 import smtplib
 import email.utils
 
-# Carregando os dados de e-mails
 emails = pd.read_csv("> Arquivo CSV<")
 
-# Divide os dados em treino e teste
 X_train, X_test, y_train, y_test = train_test_split(emails["Exemplo: text"], emails["Exemplo: spam"], test_size=0.2, random_state=42)
 
 vectorizer = CountVectorizer()
@@ -47,7 +45,6 @@ print("Precision: {:.2f}%".format(precision * 100))
 print("Recall: {:.2f}%".format(recall * 100))
 print("F1-score: {:.2f}%".format(f1 * 100))
 
-# Plotando a Matriz de Confusão
 confusion = confusion_matrix(y_test, predictions)
 
 sns.heatmap(confusion, annot=True, fmt="d")
@@ -70,13 +67,10 @@ param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000],
 logistic = LogisticRegression()
 grid = GridSearchCV(logistic, param_grid, scoring='roc_auc', cv=5)
 
-# Aqui é adicionado um passo de balanceamento de dados, como SMOTE
 X_train_resampled, y_train_resampled = SMOTE().fit_resample(X_train, y_train)
 
-# Treinamento com dados balanceados
 grid.fit(X_train_resampled, y_train_resampled)
 
-# Previsão com dados de teste
 probabilities = grid.predict_proba(X_test)
 pred_classes = predict_classes(probabilities, grid.best_params_['threshold'])
 
@@ -106,13 +100,10 @@ def is_valid_email(email):
     except:
         return False
 
-# Carregando os dados de e-mails
 emails = pd.read_csv("> Arquivo CSV<")
 
-# Adiciona uma coluna para verificar se o endereço de e-mail é válido
 emails['email_valido'] = emails['Exemplo: email'].apply(is_valid_email)
 
-# Remove todos os endereços de e-mail inválidos
 emails = emails[emails['email_valido'] == True]
 
 
